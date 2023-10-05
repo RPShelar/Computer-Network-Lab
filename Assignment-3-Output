@@ -1,0 +1,242 @@
+Enter Number of Nodes:5
+Enter Distance between A - B : 4
+Enter Distance between A - C : 7
+Enter Distance between A - D : 8
+Enter Distance between A - E : 6
+Enter Distance between B - C : 4
+Enter Distance between B - D : 5
+Enter Distance between B - E : 2
+Enter Distance between C - D : 1
+Enter Distance between C - E : 3
+Enter Distance between D - E : 2
+After Initialization
+A Table
+Node	Dist	Via
+A	0	-1
+B	4	-1
+C	7	-1
+D	8	-1
+E	6	-1
+B Table
+Node	Dist	Via
+A	4	-1
+B	0	-1
+C	4	-1
+D	5	-1
+E	2	-1
+C Table
+Node	Dist	Via
+A	7	-1
+B	4	-1
+C	0	-1
+D	1	-1
+E	3	-1
+D Table
+Node	Dist	Via
+A	8	-1
+B	5	-1
+C	1	-1
+D	0	-1
+E	2	-1
+E Table
+Node	Dist	Via
+A	6	-1
+B	2	-1
+C	3	-1
+D	2	-1
+E	0	-1
+
+ For A
+ From A
+ A 0
+ B 4
+ C 7
+ D 8
+ E 6
+ From B
+ A 8
+ B 4
+ C 8
+ D 9
+ E 6
+ From C
+ A 14
+ B 11
+ C 7
+ D 8
+ E 10
+ From D
+ A 16
+ B 13
+ C 9
+ D 8
+ E 10
+ From E
+ A 12
+ B 8
+ C 9
+ D 8
+ E 6
+
+ For B
+ From A
+ A 4
+ B 8
+ C 11
+ D 12
+ E 10
+ From B
+ A 4
+ B 0
+ C 4
+ D 5
+ E 2
+ From C
+ A 11
+ B 8
+ C 4
+ D 5
+ E 7
+ From D
+ A 13
+ B 10
+ C 6
+ D 5
+ E 7
+ From E
+ A 8
+ B 4
+ C 5
+ D 4
+ E 2
+
+ For C
+ From A
+ A 7
+ B 11
+ C 14
+ D 15
+ E 13
+ From B
+ A 8
+ B 4
+ C 8
+ D 9
+ E 6
+ From C
+ A 7
+ B 4
+ C 0
+ D 1
+ E 3
+ From D
+ A 9
+ B 6
+ C 2
+ D 1
+ E 3
+ From E
+ A 9
+ B 5
+ C 6
+ D 5
+ E 3
+
+ For D
+ From A
+ A 8
+ B 12
+ C 15
+ D 16E 14
+ From B
+ A 9
+ B 5
+ C 9
+ D 10
+ E 7
+ From C
+ A 8
+ B 5
+ C 1
+ D 2
+ E 4
+ From D
+ A 8
+ B 5
+ C 1
+ D 0
+ E 2
+ From E
+ A 8
+ B 4
+ C 5
+ D 4
+ E 2
+
+ For E
+ From A
+ A 6
+ B 10
+ C 13
+ D 14
+ E 12
+ From B
+ A 6
+ B 2
+ C 6
+D 7
+ E 4
+ From C
+ A 10
+ B 7
+ C 3
+ D 4
+ E 6
+ From D
+ A 10
+ B 7
+ C 3
+ D 2
+ E 4
+ From E
+ A 6
+ B 2
+ C 3
+ D 2
+ E 0
+ After Update :
+A Table
+Node	Dist	Via
+A	0	-
+B	4	-
+C	7	-
+D	8	-
+E	6	-
+B Table
+Node	Dist	Via
+A	4	-
+B	0	-
+C	4	-
+D	4	E
+E	2	-
+C Table
+Node	Dist	Via
+A	7	-
+B	4	-
+C	0	-
+D	1	-
+E	3	-
+D Table
+Node	Dist	Via
+A	8	-
+B	4	E
+C	1	-
+D	0	-
+E	2	-
+E Table
+Node	Dist	Via
+A	6	-
+B	2	-
+C	3	-
+D	2	-
+E	0	-
