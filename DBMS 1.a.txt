@@ -1,0 +1,260 @@
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> create database ass1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use ass1;
+Database changed
+mysql> CREATE TABLE branch (
+    ->     branch_name VARCHAR(255) PRIMARY KEY,
+    ->     branch_city VARCHAR(255) NOT NULL,
+    ->     assets DECIMAL(12, 2) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc branch;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| branch_name | varchar(255)  | NO   | PRI | NULL    |       |
+| branch_city | varchar(255)  | NO   |     | NULL    |       |
+| assets      | decimal(12,2) | NO   |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Account (
+    ->     Acc_no INT PRIMARY KEY,
+    ->     branch_name VARCHAR(255) NOT NULL,
+    ->     balance DECIMAL(10, 2),
+    ->     FOREIGN KEY (branch_name) REFERENCES branch (branch_name)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc Account;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| Acc_no      | int           | NO   | PRI | NULL    |       |
+| branch_name | varchar(255)  | NO   | MUL | NULL    |       |
+| balance     | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE customers (
+    ->     cust_name VARCHAR(255) PRIMARY KEY,
+    ->     cust_street VARCHAR(255),
+    ->     cust_city VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc customers;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| cust_name   | varchar(255) | NO   | PRI | NULL    |       |
+| cust_street | varchar(255) | YES  |     | NULL    |       |
+| cust_city   | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Depositor (
+    ->     cust_name VARCHAR(255),
+    ->     acc_no INT,
+    ->     PRIMARY KEY (cust_name, acc_no),
+    ->     FOREIGN KEY (cust_name) REFERENCES customers (cust_name),
+    ->     FOREIGN KEY (acc_no) REFERENCES Account (Acc_no)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Depositor;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_name | varchar(255) | NO   | PRI | NULL    |       |
+| acc_no    | int          | NO   | PRI | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Loan (
+    ->     loan_no INT PRIMARY KEY,
+    ->     branch_name VARCHAR(255),
+    ->     amount DECIMAL(10, 2),
+    ->     FOREIGN KEY (branch_name) REFERENCES branch (branch_name)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Loan;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| loan_no     | int           | NO   | PRI | NULL    |       |
+| branch_name | varchar(255)  | YES  | MUL | NULL    |       |
+| amount      | decimal(10,2) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Borrower (
+    ->     cust_name VARCHAR(255),
+    ->     loan_no INT,
+    ->     PRIMARY KEY (cust_name, loan_no),
+    ->     FOREIGN KEY (cust_name) REFERENCES customers (cust_name),
+    ->     FOREIGN KEY (loan_no) REFERENCES Loan (loan_no)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc Borrower;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_name | varchar(255) | NO   | PRI | NULL    |       |
+| loan_no   | int          | NO   | PRI | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into branch values('HDFC','Lohegaon','56000');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into branch values('ICICI','Pune','66000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from branch;
++-------------+-------------+----------+
+| branch_name | branch_city | assets   |
++-------------+-------------+----------+
+| HDFC        | Lohegaon    | 56000.00 |
+| ICICI       | Pune        | 66000.00 |
++-------------+-------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Account values('123654','HDFC','56000');
+Query OK, 1 row affected (0.00 sec)
+mysql> insert into Account values('123655','ICICI','56000');
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> select *from Account;
++--------+-------------+----------+
+| Acc_no | branch_name | balance  |
++--------+-------------+----------+
+| 123654 | HDFC        | 56000.00 |
+| 123655 | ICICI       | 56000.00 |
++--------+-------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into customers values('Rohan','Porwal','Lohegaon');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customers values('Pranav','Porwal','Lohegaon');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from customers;
++-----------+-------------+-----------+
+| cust_name | cust_street | cust_city |
++-----------+-------------+-----------+
+| Pranav    | Porwal      | Lohegaon  |
+| Rohan     | Porwal      | Lohegaon  |
++-----------+-------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Depositor values('Pranav','123654');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Depositor values('Rohan','123655');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Depositor;
++-----------+--------+
+| cust_name | acc_no |
++-----------+--------+
+| Pranav    | 123654 |
+| Rohan     | 123655 |
++-----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Loan values('4545','HDFC','450000.0');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Loan values('5454','ICICI','450000.0');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Loan;
++---------+-------------+-----------+
+| loan_no | branch_name | amount    |
++---------+-------------+-----------+
+|    4545 | HDFC        | 450000.00 |
+|    5454 | ICICI       | 450000.00 |
++---------+-------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Borrower values('Pranav','4545');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Borrower values('Rohan','5454');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Borrower;
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| Pranav    |    4545 |
+| Rohan     |    5454 |
++-----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT c.cust_name, l.loan_no, l.amount
+    -> FROM customers c
+    -> JOIN Borrower b ON c.cust_name = b.cust_name
+    -> JOIN Loan l ON b.loan_no = l.loan_no;
++-----------+---------+-----------+
+| cust_name | loan_no | amount    |
++-----------+---------+-----------+
+| Pranav    |    4545 | 450000.00 |
+| Rohan     |    5454 | 450000.00 |
++-----------+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT loan_no
+    -> FROM Loan
+    -> WHERE branch_name = 'HDFC' AND amount > 12000;
++---------+
+| loan_no |
++---------+
+|    4545 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT branch_name, AVG(balance) AS avg_balance
+    -> FROM Account
+    -> GROUP BY branch_name;
++-------------+--------------+
+| branch_name | avg_balance  |
++-------------+--------------+
+| HDFC        | 56000.000000 |
+| ICICI       | 56000.000000 |
++-------------+--------------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT DISTINCT c.cust_name
+    -> FROM customers c
+    -> LEFT JOIN Depositor d ON c.cust_name = d.cust_name
+    -> LEFT JOIN Borrower b ON c.cust_name = b.cust_name
+    -> WHERE d.cust_name IS NOT NULL OR b.cust_name IS NOT NULL;
++-----------+
+| cust_name |
++-----------+
+| Pranav    |
+| Rohan     |
++-----------+
+2 rows in set (0.01 sec)
+
+mysql> DELETE FROM Loan
+    -> WHERE amount BETWEEN 1300 AND 1500;
+Query OK, 0 rows affected (0.00 sec)

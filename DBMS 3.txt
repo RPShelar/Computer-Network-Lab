@@ -1,0 +1,213 @@
+C:\Users\shelar>mongosh
+Current Mongosh Log ID: 65469c4ec0755bea02d24ca9
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-11-01T16:48:43.836+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> db.createCollection("CRUD");
+{ ok: 1 }
+test> db.CRUD.insert({name:'John Doe', age : 30, email: 'john.doe@example.com'})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65469d5cc0755bea02d24caa") }
+}
+test> db.CRUD.insert({name:'Rohan', age : 21, email: 'rohan.shelar@gmail.com'})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65469d89c0755bea02d24cab") }
+}
+test> db.CRUD.insert({name:'Pranav', age : 20, email: 'pranav.kadam@gmail.com'})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("65469da5c0755bea02d24cac") }
+}
+test> db.CRUD.find();
+[
+  {
+    _id: ObjectId("65469d5cc0755bea02d24caa"),
+    name: 'John Doe',
+    age: 30,
+    email: 'john.doe@example.com'
+  },
+  {
+test>
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  },
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  }
+]
+test> db.CRUD.find({age: {$gt:21}});
+[
+  {
+    _id: ObjectId("65469d5cc0755bea02d24caa"),
+    name: 'John Doe',
+    age: 30,
+    email: 'john.doe@example.com'
+  }
+]
+test> db.CRUD.find({age: {$lt:21}});
+[
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  }
+]
+
+test> db.CRUD.update({name:'John Doe'},{$set:{email:'john.doe@gmail.com'}});
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite. Unterminated string constant. (1:46)
+{
+  acknowledged: true,{name:'John Doe'},{$set:{email:'john.doe@gmail.com}});
+  insertedId: null,                                 ^
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+test> db.CRUD.find();
+[
+  {
+    _id: ObjectId("65469d5cc0755bea02d24caa"),
+    name: 'John Doe',
+    age: 30,
+    email: 'john.doe@gmail.com'
+  },
+  {
+    _id: ObjectId("65469d89c0755bea02d24cab"),
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  },
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  }
+]
+
+test> db.CRUD.remove({'name':'John Doe'});
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+test> db.CRUD.find();
+[
+  {
+    _id: ObjectId("65469d89c0755bea02d24cab"),
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  },
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  }
+]
+test> db.CRUD.find({'name':'Rohan'});
+[
+  {
+    _id: ObjectId("65469d89c0755bea02d24cab"),
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  }
+]
+test> db.CRUD.insert({'name':'Hitendra','age':'23','email':'hitendra@gmail.com'});
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("6546a241c0755bea02d24cad") }
+}
+test> db.CRUD.find();
+[
+  {
+    _id: ObjectId("65469d89c0755bea02d24cab"),
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  },
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  },
+  {
+    _id: ObjectId("6546a241c0755bea02d24cad"),
+    name: 'Hitendra',
+    age: '23',
+    email: 'hitendra@gmail.com'
+  }
+]
+test> db.CRUD.insert({'name':'Hitendra','age':'24','email':'fake@gmail.com'});
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("6546a297c0755bea02d24cae") }
+}
+test> db.CRUD.find();
+[
+  {
+    _id: ObjectId("65469d89c0755bea02d24cab"),
+    name: 'Rohan',
+    age: 21,
+    email: 'rohan.shelar@gmail.com'
+  },
+  {
+    _id: ObjectId("65469da5c0755bea02d24cac"),
+    name: 'Pranav',
+    age: 20,
+    email: 'pranav.kadam@gmail.com'
+  },
+  {
+    _id: ObjectId("6546a241c0755bea02d24cad"),
+    name: 'Hitendra',
+    age: '23',
+    email: 'hitendra@gmail.com'
+  },
+  {
+    _id: ObjectId("6546a297c0755bea02d24cae"),
+    name: 'Hitendra',
+    age: '24',
+    email: 'fake@gmail.com'
+  }
+]
+
+test> db.CRUD.find({$and:[{'name':'Hitendra'},{'email':'fake@gmail.com'}]});
+[
+  {
+    _id: ObjectId("6546a297c0755bea02d24cae"),
+    name: 'Hitendra',
+    age: '24',
+    email: 'fake@gmail.com'
+  }
+]
+test> db.CRUD.find({$or:[{'name':'Hitendra'},{'email':'fake@gmail.com'}]});
+[
+  {
+    _id: ObjectId("6546a241c0755bea02d24cad"),
+    name: 'Hitendra',
+    age: '23',
+    email: 'hitendra@gmail.com'
+  },
+  {
+    _id: ObjectId("6546a297c0755bea02d24cae"),
+    name: 'Hitendra',
+    age: '24',
+    email: 'fake@gmail.com'
+  }
+]
+test>

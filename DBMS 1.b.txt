@@ -1,0 +1,171 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass1               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample_db          |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> create database ass2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use ass2;
+Database changed
+mysql> CREATE TABLE Student (
+    ->     RollNumber INT PRIMARY KEY,
+    ->     Name VARCHAR(50),
+    ->     SubmissionStatus VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> desc Student;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| RollNumber       | int         | NO   | PRI | NULL    |       |
+| Name             | varchar(50) | YES  |     | NULL    |       |
+| SubmissionStatus | varchar(20) | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+3 rows in set (0.09 sec)
+
+mysql> insert into Student Values('49','Rohan','Submitted');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Student Values('34','Rittik','Submitted');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student Values('85','Ganesh','Not-Submitted');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student Values('65','Raj','Not-Submitted');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Student Values('56','Rajvarma','Submitted');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from Student;
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         34 | Rittik   | Submitted        |
+|         49 | Rohan    | Submitted        |
+|         56 | Rajvarma | Submitted        |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+5 rows in set (0.19 sec)
+
+mysql> UPDATE Student
+    -> SET SubmissionStatus = 'Not-Submitted'
+    -> WHERE RollNumber = 56;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from Student;
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         34 | Rittik   | Submitted        |
+|         49 | Rohan    | Submitted        |
+|         56 | Rajvarma | Not-Submitted    |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE VIEW StudentView AS
+    -> SELECT RollNumber, Name, SubmissionStatus
+    -> FROM Student;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select *from Student;
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         34 | Rittik   | Submitted        |
+|         49 | Rohan    | Submitted        |
+|         56 | Rajvarma | Not-Submitted    |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Student ORDER BY RollNumber;
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         34 | Rittik   | Submitted        |
+|         49 | Rohan    | Submitted        |
+|         56 | Rajvarma | Not-Submitted    |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT SubmissionStatus, COUNT(*) as Count
+    -> FROM Student
+    -> GROUP BY SubmissionStatus;
++------------------+-------+
+| SubmissionStatus | Count |
++------------------+-------+
+| Submitted        |     2 |
+| Not-Submitted    |     3 |
++------------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Student WHERE SubmissionStatus = 'Submitted';
++------------+--------+------------------+
+| RollNumber | Name   | SubmissionStatus |
++------------+--------+------------------+
+|         34 | Rittik | Submitted        |
+|         49 | Rohan  | Submitted        |
++------------+--------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Student WHERE SubmissionStatus = 'Not-Submitted';
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         56 | Rajvarma | Not-Submitted    |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> select *from Student;
++------------+----------+------------------+
+| RollNumber | Name     | SubmissionStatus |
++------------+----------+------------------+
+|         34 | Rittik   | Submitted        |
+|         49 | Rohan    | Submitted        |
+|         56 | Rajvarma | Not-Submitted    |
+|         65 | Raj      | Not-Submitted    |
+|         85 | Ganesh   | Not-Submitted    |
++------------+----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE Student
+    -> SET Name = 'Rajesh'
+    -> WHERE RollNumber = 56;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from Student;
++------------+--------+------------------+
+| RollNumber | Name   | SubmissionStatus |
++------------+--------+------------------+
+|         34 | Rittik | Submitted        |
+|         49 | Rohan  | Submitted        |
+|         56 | Rajesh | Not-Submitted    |
+|         65 | Raj    | Not-Submitted    |
+|         85 | Ganesh | Not-Submitted    |
++------------+--------+------------------+
+5 rows in set (0.00 sec)
+
+
+
+//Not able to solve Make changes in the view

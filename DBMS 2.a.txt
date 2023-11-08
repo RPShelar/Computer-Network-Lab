@@ -1,0 +1,181 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass1               |
+| ass2               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample_db          |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql> create database ass3;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| ass1               |
+| ass2               |
+| ass3               |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sample_db          |
++--------------------+
+
+mysql> use ass3;
+Database changed
+
+mysql> create table EMP(
+    -> Emp_no INT,
+    -> Emp_name varchar(50),
+    -> Dept_no INT);
+
+mysql> desc EMP;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Emp_no   | int         | YES  |     | NULL    |       |
+| Emp_name | varchar(50) | YES  |     | NULL    |       |
+| Dept_no  | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+mysql> INSERT INTO EMP (Emp_no, Emp_name, Dept_no) VALUES
+    -> (1, 'Ram', 101),
+    -> (2, 'John', 102),
+    -> (3, 'Alice', 101),
+    -> (4, 'Bob', 103),
+    -> (NULL,NULL,104),
+    -> (NULL,NULL,105);
+Query OK, 6 rows affected (0.00 sec)
+
+mysql> select *from EMP;
++--------+----------+---------+
+| Emp_no | Emp_name | Dept_no |
++--------+----------+---------+
+|      1 | Ram      |     101 |
+|      2 | John     |     102 |
+|      3 | Alice    |     101 |
+|      4 | Bob      |     103 |
+|   NULL | NULL     |     104 |
+|   NULL | NULL     |     105 |
++--------+----------+---------+
+6 rows in set (0.00 sec)
+
+mysql> create table DEPT(
+    -> Dept_no INT,
+    -> Dept_name varchar(50));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc DEPT;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Dept_no   | int         | YES  |     | NULL    |       |
+| Dept_name | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPT (Dept_no, Dept_name) VALUES
+    -> (101, 'HR'),
+    -> (102, 'IT'),
+    -> (103, 'Finance'),
+    -> (104, 'Cisco'),
+    -> (105, 'Microsoft');
+Query OK, 5 rows affected (0.00 sec)
+
+mysql> select *from DEPT;
++---------+-----------+
+| Dept_no | Dept_name |
++---------+-----------+
+|     101 | HR        |
+|     102 | IT        |
+|     103 | Finance   |
+|     104 | Cisco     |
+|     105 | Microsoft |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Address (
+    ->     Dept_name VARCHAR(50),
+    ->     Dept_location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc Address;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Dept_name     | varchar(50) | YES  |     | NULL    |       |
+| Dept_location | varchar(50) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO Address (Dept_name, Dept_location) VALUES
+    -> ('HR', 'New York'),
+    -> ('IT', 'San Francisco'),
+    -> ('Finance', 'Los Angeles'),
+    -> ('Cisco', 'Pune');
+Query OK, 4 rows affected (0.00 sec)
+
+mysql> select *from Address;
++-----------+---------------+
+| Dept_name | Dept_location |
++-----------+---------------+
+| HR        | New York      |
+| IT        | San Francisco |
+| Finance   | Los Angeles   |
+| Cisco     | Pune          |
+| Microsoft | Delhi         |
++-----------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT A.Dept_location
+    -> FROM EMP E
+    -> JOIN DEPT D ON E.Dept_no = D.Dept_no
+    -> JOIN Address A ON D.Dept_name = A.Dept_name
+    -> WHERE E.Emp_name = 'Ram';
++---------------+
+| Dept_location |
++---------------+
+| New York      |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE VIEW EmployeeCountByDepartment AS
+    -> SELECT D.Dept_name, COUNT(E.Emp_no) AS TotalEmployees
+    -> FROM DEPT D
+    -> LEFT JOIN EMP E ON D.Dept_no = E.Dept_no
+    -> GROUP BY D.Dept_name
+    -> ORDER BY TotalEmployees ASC;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select *from EmployeeCountByDepartment;
++-----------+----------------+
+| Dept_name | TotalEmployees |
++-----------+----------------+
+| Cisco     |              0 |
+| Microsoft |              0 |
+| IT        |              1 |
+| Finance   |              1 |
+| HR        |              2 |
++-----------+----------------+
+5 rows in set (0.00 sec)
+
+
+mysql> SELECT D.Dept_name
+    -> FROM DEPT D
+    -> LEFT JOIN EMP E ON D.Dept_no = E.Dept_no
+    -> WHERE E.Emp_no IS NULL;
++-----------+
+| Dept_name |
++-----------+
+| Cisco     |
+| Microsoft |
++-----------+
+2 rows in set (0.00 sec)
+
